@@ -6,7 +6,7 @@ from loguru import logger
 
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.chains import ConversationalRetrievalChain
-
+from langchain.callbacks import get_ai_callback
 
 from langchain.document_loaders import PyPDFLoader
 from langchain.document_loaders import Docx2txtLoader
