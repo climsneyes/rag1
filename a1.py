@@ -19,7 +19,7 @@ from langchain.memory import ConversationBufferMemory
 from langchain.vectorstores import FAISS
 
 # from streamlit_chat import message
-from langchain.callbacks import get_openai_callback
+from langchain.callbacks import get_ai_callback
 from langchain.memory import StreamlitChatMessageHistory
 
 def main():
@@ -43,7 +43,7 @@ def main():
         GOOGLE_API_KEY = st.text_input("goole API Key", key="chatbot_api_key", type="password")
         process = st.button("Process")
     if process:
-        if not openai_api_key:
+        if not GOOGLE_API_KEY:
             st.info("Please add your google API key to continue.")
             st.stop()
         files_text = get_text(uploaded_files)
@@ -76,7 +76,7 @@ def main():
 
             with st.spinner("Thinking..."):
                 result = chain({"question": query})
-                with get_openai_callback() as cb:
+                with get_ai_callback() as cb:
                     st.session_state.chat_history = result['chat_history']
                 response = result['answer']
                 source_documents = result['source_documents']
@@ -103,7 +103,7 @@ def get_text(docs):
     
     for doc in docs:
         file_name = doc.name  # doc 객체의 이름을 파일 이름으로 사용
-        with open(file_name, "wb") as file:  # 파일을 doc.name으로 저장
+        with (file_name, "wb") as file:  # 파일을 doc.name으로 저장
             file.write(doc.getvalue())
             logger.info(f"Uploaded {file_name}")
         if '.pdf' in doc.name:
